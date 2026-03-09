@@ -31,3 +31,33 @@ plt.title("Employees in each Department")
 plt.xticks(rotation=45)
 
 plt.show()
+
+# graph second
+
+plt.figure()
+
+sns.histplot(data['SatisfactionScore'], bins=10)
+
+plt.title("Employee Satisfaction Distribution")
+
+plt.show()
+
+# graph third
+plt.figure()
+
+sns.histplot(data['BurnoutScore'], bins=10)
+
+plt.title("Employee Burnout Level")
+
+plt.show()
+
+# graph fourth
+
+plt.figure()
+
+sns.scatterplot(x='WorkHours', y='StressLevel', data=data)
+
+plt.title("Work Hours vs Stress Level")
+
+plt.show()
+
