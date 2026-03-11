@@ -2,62 +2,55 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-data = pd.read_csv("file_dataset.CSV")
+# load dataset
+df = pd.read_csv("file_dataset.csv")
+# 3 Convert text columns to numeric
+df_numeric = df.copy()
 
-print(data.head())
-print(data.info())
-print(data.describe())
-
-
-# first 5 rows show
-print(data.head())
-
-# columns ka naam
-print(data.columns)
-
-# dataset information
-print(data.info())
-
-# summary statistics
-print(data.describe())
-
-# ghaph first 
-
-plt.figure()
-
-sns.countplot(x='Department', data=data)
-
-plt.title("Employees in each Department")
-plt.xticks(rotation=45)
-
+for col in df_numeric.select_dtypes(include="object").columns:
+    df_numeric[col] = df_numeric[col].astype("category").cat.codes
+# heatmap
+plt.figure(figsize=(12,8))
+sns.heatmap(df_numeric.corr(), cmap="coolwarm")
+plt.title("Correlation Heatmap")
 plt.show()
 
-# graph second
+print("Dataset Shape:", df.shape)
+print(df.head())
+print(df.info())
 
-plt.figure()
-
-sns.histplot(data['SatisfactionScore'], bins=10)
-
-plt.title("Employee Satisfaction Distribution")
-
+# Attrition Count
+plt.figure(figsize=(6,4))
+sns.countplot(x="Attrition", data=df)
+plt.title("Employee Attrition Count")
 plt.show()
 
-# graph third
-plt.figure()
-
-sns.histplot(data['BurnoutScore'], bins=10)
-
-plt.title("Employee Burnout Level")
-
+# Work Life Balance vs Attrition
+plt.figure(figsize=(6,4))
+sns.countplot(x="WorkLifeBalance", hue="Attrition", data=df)
+plt.title("Work Life Balance vs Attrition")
 plt.show()
 
-# graph fourth
-
-plt.figure()
-
-sns.scatterplot(x='WorkHours', y='StressLevel', data=data)
-
-plt.title("Work Hours vs Stress Level")
-
+# Job Satisfaction vs Attrition
+plt.figure(figsize=(6,4))
+sns.countplot(x="JobSatisfaction", hue="Attrition", data=df)
+plt.title("Job Satisfaction vs Attrition")
 plt.show()
 
+# Monthly Income vs Attrition
+plt.figure(figsize=(6,4))
+sns.boxplot(x="Attrition", y="MonthlyIncome", data=df)
+plt.title("Monthly Income vs Attrition")
+plt.show()
+
+# Age Distribution
+plt.figure(figsize=(6,4))
+sns.histplot(df["Age"], bins=20)
+plt.title("Age Distribution")
+plt.show()
+
+# Correlation Heatmap
+plt.figure(figsize=(12,8))
+sns.heatmap(df.corr(), cmap="coolwarm")
+plt.title("Feature Correlation")
+plt.show()
